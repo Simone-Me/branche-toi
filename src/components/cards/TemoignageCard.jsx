@@ -1,12 +1,12 @@
 function TemoignageCard({ photo, nom, contenu, tags }) {
   return (
-    <div className="temoignage-card">
+    <div className="card-base temoignage-card">
       <div className="temoignage-header">
         <img src={photo} alt={nom} className="photo" />
         <h3 className="nom">{nom}</h3>
       </div>
       
-      <div className="temoignage-content">
+      <div className="card-content">
         <p>{contenu}</p>
       </div>
       

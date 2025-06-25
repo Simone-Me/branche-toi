@@ -1,202 +1,238 @@
 :root {
-  --primary: #4F46E5;
-  --background: #F3F4F6;
-  --text-dark: #1F2937;
-  --text-light: #6B7280;
-  --border: #E5E7EB;
+  --primary: #4f46e5;
+  --primary-hover: #6366f1;
+  --primary-light: rgba(79, 70, 229, 0.1);
+  --background: #f3f4f6;
+  --surface: #ffffff;
+  --surface-alt: #f9fafb;
+  --text-dark: #1f2937;
+  --text-darker: #111827;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --success: rgb(16, 185, 129);
+  --success-light: rgba(16, 185, 129, 0.1);
+  --error: rgb(239, 68, 68);
+  --error-light: rgba(239, 68, 68, 0.1);
+  --shadow: 0 4px 12px rgba(31, 41, 55, 0.08);
+  --shadow-hover: 0 8px 24px rgba(31, 41, 55, 0.12);
+  --radius: 1rem;
+  --radius-sm: 0.5rem;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: "Inter", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   background-color: var(--background);
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-h1 {
-  font-size: 1.875rem;
-  font-weight: bold;
   color: var(--text-dark);
-  margin-bottom: 1.5rem;
 }
 
-h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--text-dark);
+h1,
+h2,
+h3 {
+  font-family: inherit;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Card styling - consolidated to match Figma design */
+.card {
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.card-title {
   margin-bottom: 1rem;
 }
 
-h3 {
+.card-title h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 0.75rem;
+  color: var(--text-darker);
+  margin: 0;
 }
 
-.card-grid {
+.card-content {
+  color: var(--text-light);
+  font-size: 1rem;
+  flex: 1;
+}
+
+.card-footer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Fiches métier */
+.card.fiche-metier {
+  background-color: var(--surface-alt);
+}
+
+.fiche-metier-info {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.fiche-metier-info h4 {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.fiche-metier-info p {
+  margin: 0;
+  color: var(--text-dark);
+}
+
+/* Fiches révision */
+.card.fiche-revision .card-title h3 {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.card.fiche-revision .card-footer a {
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.card.fiche-revision .card-footer a:hover {
+  text-decoration: underline;
+}
+
+.card.fiche-revision .card-footer a svg {
+  margin-right: 0.5rem;
+}
+
+/* Question card */
+.card.question-card {
+  padding-bottom: 1rem;
+}
+
+.question-text {
+  font-size: 1.125rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-darker);
+  font-weight: 500;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option-button {
+  text-align: left;
   padding: 1rem;
-}
-
-@media (min-width: 768px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .card-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.form-input,
-.form-select {
-  width: 100%;
-  padding: 0.5rem;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  background-color: var(--surface);
+  transition: all 0.15s ease;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.option-button:hover {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.option-button.correct {
+  background-color: var(--success-light);
+  border-color: var(--success);
+}
+
+.option-button.incorrect {
+  background-color: var(--error-light);
+  border-color: var(--error);
+}
+
+/* Témoignage card */
+.card.temoignage .temoignage-header {
+  display: flex;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
-.form-input:focus,
-.form-select:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+.temoignage-header img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
 }
 
-.form-label {
-  display: block;
-  font-size: 0.875rem;
+.temoignage-header h3 {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+.temoignage-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.temoignage-tag {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
   font-weight: 500;
-  color: var(--text-dark);
-  margin-bottom: 0.25rem;
 }
 
-/* Ajoutez ces styles après les styles existants */
-
-.max-w-7xl {
-  max-width: 80rem;
-  margin: 0 auto;
+/* Button styling for cards */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.hero-banner {
+.btn-primary {
   background-color: var(--primary);
   color: white;
-  border-radius: 1rem;
-  padding: 2rem;
-  margin-bottom: 3rem;
 }
 
-.hero-banner h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: white;
+.btn-primary:hover {
+  background-color: var(--primary-hover);
 }
 
-.hero-banner p {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-}
-
-.feature-card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  text-decoration: none;
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border);
   color: var(--text-dark);
 }
 
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.feature-card h3 {
-  color: var(--text-dark);
-  margin-bottom: 0.5rem;
-}
-
-.feature-card p {
-  color: var(--text-light);
-}
-
-.testimonials-preview {
-  padding: 2rem 0;
-}
-
-/* Styles pour les boutons */
-.bg-white {
-  background-color: white;
-}
-
-.bg-secondary {
-  background-color: #2563EB;
-}
-
-.text-primary {
-  color: var(--primary);
-}
-
-.text-white {
-  color: white;
-}
-
-.px-6 {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
-}
-
-.font-semibold {
-  font-weight: 600;
-}
-
-.text-center {
-  text-align: center;
-}
-
-/* Media queries pour la responsivité */
-@media (min-width: 640px) {
-  .sm\:flex-row {
-    flex-direction: row;
-  }
-  
-  .sm\:px-6 {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .md\:text-5xl {
-    font-size: 3rem;
-  }
-  
-  .md\:p-12 {
-    padding: 3rem;
-  }
+.btn-outline:hover {
+  border-color: var(--text-light);
 }

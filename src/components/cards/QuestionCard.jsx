@@ -1,12 +1,13 @@
 function QuestionCard({ question, options, onAnswer, isAnswered, correctAnswer }) {
   return (
-    <div className="question-card">
+    <div className="card-base question-card">
       <h3 className="question-text">{question}</h3>
       <div className="options-container">
         {options.map((option, index) => (
           <button
             key={index}
-            className={`option-button ${isAnswered ? (option === correctAnswer ? 'correct' : 'incorrect') : ''}`}
+            className={`option-button ${isAnswered ? 
+              (option === correctAnswer ? 'correct' : 'incorrect') : ''}`}
             onClick={() => onAnswer(option)}
             disabled={isAnswered}
           >
