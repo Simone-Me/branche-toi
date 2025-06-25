@@ -10,14 +10,16 @@ import Temoignages from './pages/Temoignages';
 function App() {
   return (
     <Layout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/fiches-metiers" element={<FichesMetiers />} />
-        <Route path="/revision-bac" element={<RevisionBac />} />
-        <Route path="/quiz" element={<Quiz />} />
-        <Route path="/orientation" element={<Orientation />} />
-        <Route path="/temoignages" element={<Temoignages />} />
-      </Routes>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/fiches-metiers" element={<FichesMetiers />} />
+          <Route path="/revision-bac" element={<RevisionBac />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/orientation" element={<Orientation />} />
+          <Route path="/temoignages" element={<Temoignages />} />
+        </Routes>
+      </div>
     </Layout>
   );
 }
