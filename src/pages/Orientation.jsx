@@ -1,56 +1,44 @@
+import { useEffect, useState } from "react";
 import OrientationCard from "../components/cards/OrientationCard";
+import { supabase } from "../lib/supabaseClient";
 
 function Orientation() {
-  const orientationPaths = [
-    {
-      id: 1,
-      title: "Sciences et Technologies",
-      description: "Découvrez les métiers de l'innovation et de la recherche",
-      domains: ["Ingénierie", "Informatique", "Recherche"],
-      duration: "20 min",
-      type: "Questionnaire détaillé",
-    },
-    {
-      id: 2,
-      title: "Commerce et Management",
-      description: "Explorez les carrières dans le monde des affaires",
-      domains: ["Marketing", "Finance", "Gestion"],
-      duration: "15 min",
-      type: "Test d'aptitude",
-    },
-    {
-      id: 3,
-      title: "Arts et Culture",
-      description: "Développez votre créativité et votre expression",
-      domains: ["Design", "Communication", "Médias"],
-      duration: "25 min",
-      type: "Évaluation créative",
-    },
-    {
-      id: 4,
-      title: "Santé et Social",
-      description: "Découvrez les métiers du soin et de l'accompagnement",
-      domains: ["Médical", "Paramédical", "Social"],
-      duration: "20 min",
-      type: "Questionnaire métier",
-    },
-    {
-      id: 5,
-      title: "Droit et Justice",
-      description: "Explorez les carrières juridiques",
-      domains: ["Droit", "Administration", "Relations internationales"],
-      duration: "18 min",
-      type: "Test de positionnement",
-    },
-    {
-      id: 6,
-      title: "Environnement et Nature",
-      description: "Contribuez à la protection de notre planète",
-      domains: ["Écologie", "Agriculture", "Développement durable"],
-      duration: "22 min",
-      type: "Questionnaire spécialisé",
-    },
-  ];
+  const [paths, setPaths] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchOrientationPaths();
+  }, []);
+
+  async function fetchOrientationPaths() {
+    try {
+      const { data, error } = await supabase
+        .from("orientation_paths")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (error) throw error;
+      setPaths(data);
+    } catch (error) {
+      console.error("Error fetching orientation paths:", error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        Chargement des parcours d'orientation...
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="error-container">Erreur: {error}</div>;
+  }
 
   return (
     <div className="orientation-page">
@@ -60,9 +48,13 @@ function Orientation() {
       </div>
 
       <div className="orientation-grid">
-        {orientationPaths.map((path) => (
-          <OrientationCard key={path.id} {...path} />
-        ))}
+        {paths.length > 0 ? (
+          paths.map((path) => <OrientationCard key={path.id} {...path} />)
+        ) : (
+          <div className="no-data-message">
+            <p>Aucun parcours d'orientation disponible pour le moment.</p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FicheRevision from "../components/cards/FicheRevision";
+import { supabase } from "../lib/supabaseClient";
 
 function RevisionBac() {
   const [activeTab, setActiveTab] = useState("mathematiques");
+  const [fiches, setFiches] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const matieres = {
     mathematiques: "Mathématiques",
@@ -11,121 +15,48 @@ function RevisionBac() {
     histoire: "Histoire-Géographie",
   };
 
-  const fiches = {
-    mathematiques: [
-      {
-        id: 1,
-        titre: "Dérivées et Primitives",
-        niveau: "Terminale",
-        duree: "45 min",
-        difficulte: "Moyen",
-      },
-      {
-        id: 2,
-        titre: "Suites Numériques",
-        niveau: "Terminale",
-        duree: "30 min",
-        difficulte: "Facile",
-      },
-      {
-        id: 3,
-        titre: "Probabilités",
-        niveau: "Terminale",
-        duree: "60 min",
-        difficulte: "Difficile",
-      },
-      {
-        id: 4,
-        titre: "Géométrie dans l'Espace",
-        niveau: "Terminale",
-        duree: "45 min",
-        difficulte: "Moyen",
-      },
-      {
-        id: 5,
-        titre: "Logarithmes",
-        niveau: "Terminale",
-        duree: "40 min",
-        difficulte: "Difficile",
-      },
-      {
-        id: 6,
-        titre: "Nombres Complexes",
-        niveau: "Terminale",
-        duree: "50 min",
-        difficulte: "Moyen",
-      },
-    ],
-    physique: [
-      {
-        id: 7,
-        titre: "Mécanique Quantique",
-        niveau: "Terminale",
-        duree: "45 min",
-        difficulte: "Difficile",
-      },
-      {
-        id: 8,
-        titre: "Ondes Mécaniques",
-        niveau: "Terminale",
-        duree: "30 min",
-        difficulte: "Moyen",
-      },
-      {
-        id: 9,
-        titre: "Réactions Chimiques",
-        niveau: "Terminale",
-        duree: "40 min",
-        difficulte: "Facile",
-      },
-    ],
-    francais: [
-      {
-        id: 10,
-        titre: "Le Roman au XIXe",
-        niveau: "Première",
-        duree: "45 min",
-        difficulte: "Moyen",
-      },
-      {
-        id: 11,
-        titre: "La Poésie Moderne",
-        niveau: "Première",
-        duree: "35 min",
-        difficulte: "Facile",
-      },
-      {
-        id: 12,
-        titre: "Le Théâtre Classique",
-        niveau: "Première",
-        duree: "50 min",
-        difficulte: "Moyen",
-      },
-    ],
-    histoire: [
-      {
-        id: 13,
-        titre: "La Guerre Froide",
-        niveau: "Terminale",
-        duree: "45 min",
-        difficulte: "Moyen",
-      },
-      {
-        id: 14,
-        titre: "La Décolonisation",
-        niveau: "Terminale",
-        duree: "40 min",
-        difficulte: "Facile",
-      },
-      {
-        id: 15,
-        titre: "La Ve République",
-        niveau: "Terminale",
-        duree: "55 min",
-        difficulte: "Moyen",
-      },
-    ],
-  };
+  useEffect(() => {
+    fetchFichesRevision();
+  }, []);
+
+  async function fetchFichesRevision() {
+    try {
+      const { data, error } = await supabase
+        .from("fiches_revision")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (error) throw error;
+
+      // Group fiches by matiere
+      const groupedFiches = data.reduce((acc, fiche) => {
+        if (!acc[fiche.matiere]) {
+          acc[fiche.matiere] = [];
+        }
+        acc[fiche.matiere].push(fiche);
+        return acc;
+      }, {});
+
+      setFiches(groupedFiches);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching fiches:", error);
+      setError(error.message);
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        Chargement des fiches de révision...
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="error-container">Erreur: {error}</div>;
+  }
 
   return (
     <div className="revision-bac-page">
@@ -146,9 +77,13 @@ function RevisionBac() {
       </div>
 
       <div className="fiches-grid">
-        {fiches[activeTab].map((fiche) => (
+        {fiches[activeTab]?.map((fiche) => (
           <FicheRevision key={fiche.id} {...fiche} />
-        ))}
+        )) || (
+          <div className="no-data-message">
+            Aucune fiche disponible pour cette matière.
+          </div>
+        )}
       </div>
     </div>
   );

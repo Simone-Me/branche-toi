@@ -1,66 +1,60 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FicheMetierCard from "../components/cards/FicheMetierCard";
+import { supabase } from "../lib/supabaseClient";
 
 function FichesMetiers() {
+  const [metiers, setMetiers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedDomain, setSelectedDomain] = useState("tous");
 
-  const metiers = [
-    {
-      id: 1,
-      metier: "Développeur Web",
-      domaine: "informatique",
-      etudes: "Bac+3 à Bac+5",
-      salaire: "35k€ - 55k€/an",
-      description: "Création et maintenance de sites web et applications",
-    },
-    {
-      id: 2,
-      metier: "Infirmier",
-      domaine: "sante",
-      etudes: "Bac+3",
-      salaire: "24k€ - 45k€/an",
-      description: "Soins aux patients et assistance médicale",
-    },
-    {
-      id: 3,
-      metier: "Commercial",
-      domaine: "commerce",
-      etudes: "Bac+2 à Bac+5",
-      salaire: "30k€ - 60k€/an",
-      description: "Développement des ventes et relation client",
-    },
-    {
-      id: 4,
-      metier: "Architecte",
-      domaine: "construction",
-      etudes: "Bac+5",
-      salaire: "35k€ - 80k€/an",
-      description: "Conception de bâtiments et suivi de projets",
-    },
-    {
-      id: 5,
-      metier: "Data Scientist",
-      domaine: "informatique",
-      etudes: "Bac+5",
-      salaire: "40k€ - 70k€/an",
-      description: "Analyse de données et intelligence artificielle",
-    },
-  ];
+  useEffect(() => {
+    fetchFichesMetiers();
+  }, []);
+
+  async function fetchFichesMetiers() {
+    try {
+      const { data, error } = await supabase
+        .from("fiches_metiers")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (error) {
+        throw error;
+      }
+
+      setMetiers(data);
+    } catch (error) {
+      console.error("Error fetching fiches métiers:", error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const filteredMetiers =
     selectedDomain === "tous"
       ? metiers
       : metiers.filter((m) => m.domaine === selectedDomain);
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Fiches Métiers</h1>
+  if (loading) {
+    return (
+      <div className="loading-container">Chargement des fiches métiers...</div>
+    );
+  }
 
-      <div className="mb-8">
+  if (error) {
+    return <div className="error-container">Erreur: {error}</div>;
+  }
+
+  return (
+    <div className="fiches-metiers-page max-w-7xl mx-auto px-4 py-8">
+      <div className="fiches-header mb-8">
+        <h1 className="text-3xl font-bold">Fiches Métiers</h1>
         <select
           value={selectedDomain}
           onChange={(e) => setSelectedDomain(e.target.value)}
-          className="w-full md:w-64 p-2 border rounded-lg"
+          className="domain-select w-full md:w-64 p-2 border rounded-lg"
         >
           <option value="tous">Tous les domaines</option>
           <option value="informatique">Informatique</option>

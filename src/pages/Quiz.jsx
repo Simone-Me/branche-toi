@@ -1,68 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QuestionCard from "../components/cards/QuestionCard";
+import { supabase } from "../lib/supabaseClient";
 
 function Quiz() {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const quizzes = [
-    {
-      id: 1,
-      title: "Culture Générale",
-      description: "Testez vos connaissances générales",
-      questions: 10,
-      duration: "15 min",
-      difficulty: "Facile",
-      category: "culture",
-    },
-    {
-      id: 2,
-      title: "Mathématiques",
-      description: "Révision des concepts clés",
-      questions: 15,
-      duration: "20 min",
-      difficulty: "Moyen",
-      category: "maths",
-    },
-    {
-      id: 3,
-      title: "Histoire",
-      description: "Les grandes périodes historiques",
-      questions: 12,
-      duration: "18 min",
-      difficulty: "Moyen",
-      category: "histoire",
-    },
-    {
-      id: 4,
-      title: "Sciences",
-      description: "Physique, Chimie et SVT",
-      questions: 20,
-      duration: "25 min",
-      difficulty: "Difficile",
-      category: "sciences",
-    },
-    {
-      id: 5,
-      title: "Littérature",
-      description: "Les grands classiques",
-      questions: 10,
-      duration: "15 min",
-      difficulty: "Moyen",
-      category: "litterature",
-    },
-    {
-      id: 6,
-      title: "Géographie",
-      description: "Pays et capitales",
-      questions: 15,
-      duration: "20 min",
-      difficulty: "Facile",
-      category: "geographie",
-    },
-  ];
+  useEffect(() => {
+    fetchQuizzes();
+  }, []);
+
+  async function fetchQuizzes() {
+    try {
+      const { data, error } = await supabase
+        .from("quizzes")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (error) throw error;
+      setQuizzes(data);
+    } catch (error) {
+      console.error("Error fetching quizzes:", error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return <div className="loading-container">Chargement des quiz...</div>;
+  }
+
+  if (error) {
+    return <div className="error-container">Erreur: {error}</div>;
+  }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="quiz-page">
       <div className="quiz-header">
         <h1>Quiz par Matière</h1>
         <select

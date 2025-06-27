@@ -13,7 +13,7 @@ function App() {
   return (
     <Layout>
       <div className="App">
-        <ConnectionTest />
+        {/*<ConnectionTest /> */}
         <DatabaseSetup /> {/* cela est juste pour jaouter */}
         <Routes>
           <Route path="/" element={<Home />} />
