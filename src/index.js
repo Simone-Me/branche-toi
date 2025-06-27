@@ -3,11 +3,17 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "./styles/Card.css";
-import "./styles/App.css"
+import "./styles/App.css";
 import "./styles/Button.css";
+import "./styles/Card.css";
+import "./styles/FichesMetiers.css";
+import "./styles/Home.css";
 import "./styles/Navbar.css";
+import "./styles/Quiz.css";
+import "./styles/RevisionBac.css";
 import "./styles/index.css";
+import './styles/Orientation.css';
+import './styles/Temoignages.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

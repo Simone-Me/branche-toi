@@ -98,7 +98,7 @@ h3 {
   letter-spacing: -0.01em;
 }
 
-/* Card styling - consolidated to match Figma design */
+/* Card styling */
 .card {
   background-color: var(--surface);
   border-radius: var(--radius);
@@ -106,7 +106,7 @@ h3 {
   padding: 1.5rem;
   border: 1px solid var(--border);
   transition: transform 0.2s, box-shadow 0.2s;
-  height: 100%;
+  /*height: 100%;*/
   display: flex;
   flex-direction: column;
 }

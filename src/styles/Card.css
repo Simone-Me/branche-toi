@@ -39,3 +39,30 @@
   align-items: center;
   gap: 1rem;
 }
+
+.fiche-metier-card {
+  background-color: var(--surface);
+  transition: transform 0.2s ease-in-out;
+}
+
+.fiche-metier-card:hover {
+  transform: translateY(-4px);
+}
+
+.fiche-metier-info {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  margin: 1rem 0;
+}
+
+.fiche-metier-info h4 {
+  color: var(--text-light);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.fiche-metier-info p {
+  color: var(--text-dark);
+  font-weight: 500;
+}

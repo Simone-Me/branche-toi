@@ -1,0 +1,129 @@
+.orientation-page {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f3f4f6;
+}
+
+.orientation-header {
+  max-width: 1400px;
+  margin: 0 auto 2rem;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.orientation-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text-darker);
+  margin-bottom: 1rem;
+}
+
+.orientation-header p {
+  color: var(--text-light);
+  font-size: 1.2rem;
+}
+
+.orientation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.orientation-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.orientation-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-darker);
+}
+
+.card-description {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.domains-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.domain-tag {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.card-details {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.start-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.start-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+@media (max-width: 1024px) {
+  .orientation-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .orientation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .orientation-header h1 {
+    font-size: 2rem;
+  }
+}

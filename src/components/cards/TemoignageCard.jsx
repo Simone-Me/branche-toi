@@ -1,19 +1,22 @@
-function TemoignageCard({ photo, nom, contenu, tags }) {
+function TemoignageCard({ name, formation, parcours, content, photo }) {
   return (
-    <div className="card-base temoignage-card">
-      <div className="temoignage-header">
-        <img src={photo} alt={nom} className="photo" />
-        <h3 className="nom">{nom}</h3>
+    <div className="temoignage-card">
+      <div className="card-header">
+        <div className="photo-wrapper">
+          <img src={photo} alt={name} className="student-photo" />
+        </div>
+        <div className="student-info">
+          <h3>{name}</h3>
+          <p className="formation">{formation}</p>
+        </div>
       </div>
-      
+
       <div className="card-content">
-        <p>{contenu}</p>
+        <p className="testimony-text">{content}</p>
       </div>
-      
-      <div className="temoignage-tags">
-        {tags.map((tag, index) => (
-          <span key={index} className="tag">{tag}</span>
-        ))}
+
+      <div className="card-footer">
+        <span className="parcours-tag">{parcours}</span>
       </div>
     </div>
   );
